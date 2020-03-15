@@ -1,0 +1,17 @@
+- hosts: localhost
+  vars_files:
+        - /var/www/cgi-bin/project/vault
+  tasks:
+       - group:
+            name: developer
+            state: present
+       - user:
+             name: xyz
+             state: present
+             groups: developer
+             password: "{{pw_developer| password_hash('sha512')}}"
+       - user:
+             name: xyz1
+             state: present
+             groups: developer
+             password: "{{pw_developer1| password_hash('sha512')}}"

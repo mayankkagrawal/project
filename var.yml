@@ -1,0 +1,6 @@
+jdk_loc: /root/jdk-8u171-linux-x64.rpm 
+hadoop_loc: /root/hadoop-1.2.1-1.x86_64.rpm
+master_ip: 192.168.56.30
+job_ip: 192.168.56.32
+loc: 
+free_port: 3200

@@ -1,0 +1,18 @@
+- import_playbook: prerequisites.yml
+- hosts: localhost
+  tasks:
+   - include_vars: var.yml
+   - name: "Building Dockerfile"
+     docker_image:
+        dockerfile: Dockerfile_web_shellinabox
+        path: "{{loc}}"
+        name: web_shellinabox:v1
+   - name: "Launching shellinabox"
+     docker_container:
+             detach: yes
+             interactive: yes
+             tty: yes
+             name: caas
+             image: web_shellinabox:v1
+             published_ports:
+               - "{{free_port}}:4200"

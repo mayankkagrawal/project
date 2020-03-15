@@ -1,0 +1,26 @@
+- hosts: datanode
+  tasks:
+    - include_vars: var.yml  
+    - name: install jdk
+      yum:
+        name: "{{jdk_loc}}"
+        state: present
+    - lineinfile:
+        path: /root/.bashrc
+        line: "export JAVA_HOME=/usr/java/jdk1.8.0_171-amd64/\nexport PATH=/usr/java/jdk1.8.0_171-amd64/bin/:$PATH"
+    - command: "rpm -ivh {{hadoop_loc}} --force"
+- hosts: datanode
+  tasks:
+      - include_vars: var.yml
+      - name: "seting up datanode"
+        file:
+           path: /dn
+           state: directory
+      - template:
+             src: /var/www/cgi-bin/project/config/core-site.xml.j2
+             dest: /etc/hadoop/core-site.xml
+      - template:
+             src: /var/www/cgi-bin/project/config/hdfs1-site.xml.j2
+             dest: /etc/hadoop/hdfs-site.xml
+      - command: "hadoop-daemon.sh start datanode"
+

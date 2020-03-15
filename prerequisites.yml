@@ -1,0 +1,26 @@
+- hosts: localhost
+  tasks:
+     - name: "turning selinux off" 
+       selinux:
+             policy: targeted
+             state: permissive
+     - name: "Disable firewall"
+       service:
+            name: firewalld
+            state: stopped
+     - name: "installing docker" 
+       package:
+           name: docker-ce
+           state: present
+     - name: "Restart docker service"
+       service:
+           name: docker
+           state: restarted
+           enabled: yes
+     - name: "docker"
+       package: 
+              name: python2-pip
+              state: present
+     - pip:
+          name: docker-py
+     - command: "pip install --upgrade pip"

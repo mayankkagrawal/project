@@ -1,0 +1,15 @@
+From centos:latest
+
+Run yum install epel-release -y
+
+Run yum install shellinabox openssh-server openssh-clients -y
+
+Run sshd-keygen
+
+Run /usr/sbin/sshd -f /etc/ssh/ssh_config ; echo "/usr/sbin/sshd_config" >> /root/.bashrc
+
+Run echo "redhat"| passwd root --stdin
+
+Run sed -i 's/OPTS=/#OPTS=/g' /etc/sysconfig/shellinaboxd ; echo 'OPTS="-t -s /:SSH:0.0.0.0"'>> /etc/sysconfig/shellinaboxd
+
+Run echo "shellinaboxd -t -s /:SSH:0.0.0.0 -p 4200" >> /root/.bashrc

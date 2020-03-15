@@ -1,0 +1,18 @@
+- hosts: localhost
+  tasks:
+        - parted: 
+               device: /dev/sdb
+               number: 1
+               state: present
+               part_end: 1GiB
+        - filesystem:
+                 fstype: ext4
+                 dev: /dev/sdb1
+        - file:
+              state: directory
+              path: /mnt/new
+        - mount: 
+                 path: /mnt/new
+                 src: /dev/sdb1
+                 fstype: ext4
+                 state: mounted

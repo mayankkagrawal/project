@@ -1,0 +1,25 @@
+- hosts: jobnode
+  tasks:
+    - include_vars: var.yml  
+    - name: install jdk
+      yum:
+        name: "{{jdk_loc}}"
+        state: present
+    - lineinfile:
+        path: /root/.bashrc
+        line: "export JAVA_HOME=/usr/java/jdk1.8.0_171-amd64/\nexport PATH=/usr/java/jdk1.8.0_171-amd64/bin/:$PATH"
+    - command: "rpm -ivh {{hadoop_loc}} --force"
+- hosts: jobnode
+  tasks:
+      - include_vars: var.yml
+      - name: seting up namenode
+        template:
+             src: /var/www/cgi-bin/project/config/core-site.xml.j2
+             dest: /etc/hadoop/core-site.xml
+      - template:
+             src: /var/www/cgi-bin/project/config/mapred-site.xml.j2
+             dest: /etc/hadoop/mapred-site.xml
+      - command: "hadoop namenode -format -force"
+      - command: "hadoop-daemon.sh start jobtracker"
+      - iptables:
+          flush: true

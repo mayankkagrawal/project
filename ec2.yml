@@ -1,0 +1,15 @@
+- hosts: localhost
+  tasks: 
+     - pip:
+           name: boto
+           state: present
+     - ec2:
+           region: "ap-south-1"
+           key_name: private
+           instance_type: "t2.micro"
+           image: "0a74bfeb190bd404f"
+           wait: yes
+           vpc_subnet_id: "0a74bfeb190bd404f"
+           assign_public_ip: yes
+           aws_access_key: "AKIAJK4T6HKKFX6EK43A"
+           aws_secret_key: "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"
